@@ -1,0 +1,53 @@
+{% extends 'front/index.html' %}
+{% load static %}
+
+{% block my_news %}
+<body class="single">
+{% if one_news.img != None %}
+<div id="fh5co-title-box" style="background-image: url({{ one_news.img.url }}); background-position: 50% 90.5px;" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="page-title">
+        <img src="{{ one_news.img.url }}" alt="Free HTML5 by FreeHTMl5.co">
+        <span>{{ one_news.time }}</span>
+        <h2>{{ one_news.name }}</h2>
+    </div>
+</div>
+{% endif %}
+<div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
+    <div class="container paddding">
+        <div class="row mx-0">
+            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+                <p>
+                    {{ one_news.text }}
+                </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="container-fluid pb-4 pt-5">
+    <div class="container animate-box">
+        <div>
+            <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">В тренде </div>
+        </div>
+        <div class="owl-carousel owl-theme" id="slider2">
+            {% for new in top4news %}
+                <div class="item px-2">
+                <div class="fh5co_hover_news_img">
+
+                    {% if new.img != None %}
+                    <div class="fh5co_news_img"><img src="{{ new.img.url }}" alt=""/></div>
+                    {% endif %}
+
+                    <div>
+                        <a href="{%url 'news' pk=new.id %}" class="d-block fh5co_small_post_heading"><span class="">{{ new.name }}</span></a>
+                        <div class="c_g"><i class="fa fa-clock-o"></i> {{ new.time }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}

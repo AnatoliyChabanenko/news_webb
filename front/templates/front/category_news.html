@@ -1,0 +1,88 @@
+{% extends 'front/index.html' %}
+{% load static %}
+
+
+<div class="container-fluid paddding mb-5">
+    <div class="row mx-0">
+        {% for new in last_news %}
+        <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
+            <div class="fh5co_suceefh5co_height"><img src="{% static 'images/foto1.jpeg' %}" alt="img"/>
+                <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                <div class="fh5co_suceefh5co_height_position_absolute_font">
+                    <div class=""><a href="{%url 'news' pk=new.id %}" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;Dec 321,2017
+                    </a></div>
+                    <div class=""><a href="{%url 'news' pk=new.id %}" class="fh5co_good_font"> {{ new.text }} </a></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% block my_news %}
+<div class="container-fluid pb-4 pt-4 paddding">
+    <div class="container paddding">
+        <div class="row mx-0">
+            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Новости</div>
+                </div>
+
+           {% for new in news_list %}
+            <div class="row pb-4">
+                    <div class="col-md-5">
+                        <div class="fh5co_hover_news_img">
+                            {% if new.img != None %}
+                            <div class="fh5co_news_img"><img src='{{ new.img.url }}' alt=""/></div>
+                            {% endif %}
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 animate-box">
+                        <a href="{%url 'news' pk=new.id %}" class="fh5co_magna py-2"> {{ new.name }} </a> <a href="{%url 'news' pk=new.id %}" class="fh5co_mini_time py-3">
+                        {{ new.avtor }} </a>
+                        <div class="fh5co_consectetur"> {{ new.text }}
+                        </div>
+                    </div>
+                </div>
+           {% endfor %}
+
+
+
+                <div class="row pb-4">
+                    <div class="col-md-5">
+                        <div class="fh5co_hover_news_img">
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tags</div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="fh5co_tags_all">
+                    {% for tag in tag_my %}
+                    <a href="{% url 'tag' slug=tag.tags %}" class="fh5co_tagg">{{ tag.tags }}</a>
+                    {% endfor %}
+                </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
+            <div class="col-12 text-center pb-4 pt-4">
+                <a href="#" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp; Previous</a>
+                <a href="#" class="btn_pagging">1</a>
+                <a href="#" class="btn_pagging">2</a>
+                <a href="#" class="btn_pagging">3</a>
+                <a href="#" class="btn_pagging">...</a>
+                <a href="#" class="btn_mange_pagging">Next <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
+             </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

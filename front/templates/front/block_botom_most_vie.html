@@ -1,0 +1,9 @@
+{% load static %}
+<div class="col-12 col-md-5 col-lg-3 position_footer_relative">
+                <div class="footer_main_title py-3"> Самі популярні </div>
+     {% for new in top3news %}
+                <div class="footer_makes_sub_font">{{new.time }}</div>
+                <a href="#" class="footer_post pb-4"> {{ new.name }} </a>
+     {% endfor %}
+                <div class="footer_position_absolute"><img src={% static "images/footer_sub_tipik.png" %} alt="img" class="width_footer_sub_img"/></div>
+ </div>

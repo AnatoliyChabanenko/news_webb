@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="container-fluid paddding mb-5">
+    <div class="row mx-0">
+        <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
+
+            <div class="fh5co_suceefh5co_height"><img src='{{ topnews.img.url }}'alt="img"/>
+                <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                <div class="fh5co_suceefh5co_height_position_absolute_font">
+                    <div class=""><a href="#" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ topnews.time }}
+                    </a></div>
+                    <div class=""><a href="{%url 'news' pk=topnews.id %}" class="fh5co_good_font"> {{ topnews.name }} </a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                {% for news in top4news %}
+                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+                    <div class="fh5co_suceefh5co_height_2"><img src="{{ news.img.url }}" alt="img"/>
+                        <div class="fh5co_suceefh5co_height_position_absolute"></div>
+                        <div class="fh5co_suceefh5co_height_position_absolute_font_2">
+                            <div class=""><a href="{%url 'news' pk=news.id %}" class="color_fff"> <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ news.time }} </a></div>
+                            <div class=""><a href="{%url 'news' pk=news.id %}" class="fh5co_good_font_2"> {{ news.name  }} <br>more is said than done </a></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
