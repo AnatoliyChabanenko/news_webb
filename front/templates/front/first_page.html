@@ -31,7 +31,6 @@
            {% endfor %}
 
 
-
                 <div class="row pb-4">
                     <div class="col-md-5">
                         <div class="fh5co_hover_news_img">
@@ -50,8 +49,12 @@
                     {% for tag in tag_my %}
                     <a href="{% url 'tag' slug=tag.tags %}" class="fh5co_tagg">{{ tag.tags }}</a>
                     {% endfor %}
+                    </div>
                 </div>
-                </div>
+            </div>
+        </div>
+    </div>
+
         {% endblock %}
 
 
