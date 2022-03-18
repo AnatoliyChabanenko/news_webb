@@ -15,6 +15,7 @@ def top_5_news(req):
         'topnews': News.objects.first(),
         'top3news' : News.objects.all()[:3]
     }
+
 def top_category(req):
     return {
         'top_category': Category.objects.filter(parent=None),

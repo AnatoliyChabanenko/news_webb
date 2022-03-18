@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 {% load static %}
 
-
 <html lang="en" class="no-js">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>имси</title>
+    <title>мой блятский скайт</title>
     <link href="{% static 'css/media_query.css' %}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %}" rel="stylesheet"
@@ -27,7 +26,7 @@
 </head>
 <body>
 
-{% include 'front/category.html' with categoriya=top_category %}
+{% include 'front/block_category.html' with categoriya=top_category %}
 
 {% block top_news %}
 
@@ -36,7 +35,27 @@
 {% block my_news %}
 
 {% endblock %}
+{% if page_obj.has_other_pages %}
+        <div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
+            <div class="col-12 text-center pb-4 pt-4">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp;Попередня</a>
+            {% endif %}
 
+                {% for p in paginator.page_range %}
+                    {% if page_obj.number == p %}
+                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+
+                {% endif %}
+                <a href="?page={{ p }}" class="btn_pagging">{{ p }}</a>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn_mange_pagging">Наступна<i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
+                    {% endif %}
+
+             </div>
+        </div>
+{% endif %}
 
 <div class="container-fluid fh5co_footer_bg pb-3">
     <div class="container animate-box">
@@ -45,9 +64,9 @@
             <div class="col-12 spdp_right py-5"><img src="{% static 'images/white_logo.png' %}" alt="img" class="footer_logo"/></div>
             <div class="clearfix"></div>
             <div class="col-12 col-md-4 col-lg-3">
-                <div class="footer_main_title py-3"> About</div>
+                <div class="footer_main_title py-3"> </div>
                 <div class="footer_sub_about pb-3"> © 2022.
-                Николаевская областная интернет-газета«Новости N»
+                Николаев лучший
 
                 </div>
                 <div class="footer_mediya_icon">
@@ -65,19 +84,8 @@
                     </a></div>
                 </div>
             </div>
-
             {% include 'front/block_botom_category.html' %}
            {% include 'front/block_botom_most_vie.html' %}
-
-        </div>
-        <div class="row justify-content-center pt-2 pb-4">
-            <div class="col-12 col-md-8 col-lg-7 ">
-                <div class="input-group">
-                    <span class="input-group-addon fh5co_footer_text_box" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-                    <input type="text" class="form-control fh5co_footer_text_box" placeholder="Enter your email..." aria-describedby="basic-addon1">
-                    <a href="#" class="input-group-addon fh5co_footer_subcribe" id="basic-addon12"> <i class="fa fa-paper-plane-o"></i>&nbsp;&nbsp;Subscribe</a>
-                </div>
-            </div>
         </div>
     </div>
 </div>

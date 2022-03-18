@@ -1,8 +1,8 @@
 {% extends 'front/index.html' %}
 {% load static %}
 
-
 {% block my_news %}
+
 <div class="container-fluid pb-4 pt-4 paddding">
     <div class="container paddding">
         <div class="row mx-0">
@@ -11,7 +11,7 @@
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">News</div>
                 </div>
 
-           {% for new in top4news %}
+           {% for new in tegs_news %}
             <div class="row pb-4">
                     <div class="col-md-5">
                         <div class="fh5co_hover_news_img">
@@ -24,7 +24,7 @@
                     <div class="col-md-7 animate-box">
                         <a href="{%url 'news' pk=new.id %}" class="fh5co_magna py-2"> {{ new.name }} </a> <a href="{%url 'news' pk=new.id %}" class="fh5co_mini_time py-3">
                         {{ new.avtor }} </a>
-                        <div class="fh5co_consectetur"> {{ new.text }}
+                        <div class="fh5co_consectetur"> {{ new.text|truncatewords:30 }}
                         </div>
                     </div>
                 </div>
@@ -39,27 +39,9 @@
                     </div>
                 </div>
             </div>
-                <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
-                <div>
-                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Tags</div>
-                </div>
-                <div class="clearfix"></div>
+                {% include 'front/block_tag_content.html' %}
 
-                <div class="fh5co_tags_all">
-                    {% for tag in tag_my %}
-                    <a href="{% url 'tag' slug=tag.tags %}" class="fh5co_tagg">{{ tag.tags }}</a>
-                    {% endfor %}
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-
-        {% endblock %}
-
-
-{% block top_news %}
-
-{% include 'front/top_4_news.html' %}
-
+</div>
 {% endblock %}
