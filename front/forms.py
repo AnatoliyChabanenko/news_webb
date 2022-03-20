@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 
+from front.models import Comment
 
 
 class RegisterUserForm(UserCreationForm):
@@ -18,3 +18,13 @@ class RegisterUserForm(UserCreationForm):
 class LoginUserForm(AuthenticationForm):
         username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
         password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
+class AddCommentsForm(forms.ModelForm):
+
+        class Meta:
+            model = Comment
+            fields = ['body']
+            widgets = {
+                'body': forms.Textarea(attrs={'cols': 60, 'rows': 10})
+            }

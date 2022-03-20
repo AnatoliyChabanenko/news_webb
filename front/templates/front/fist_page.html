@@ -3,46 +3,8 @@
 
 
 {% block my_news %}
-<div class="container-fluid pb-4 pt-4 paddding">
-    <div class="container paddding">
-        <div class="row mx-0">
-            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
-                <div>
-                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">News</div>
-                </div>
-
-           {% for new in category %}
-            <div class="row pb-4">
-                    <div class="col-md-5">
-                        <div class="fh5co_hover_news_img">
-                            {% if new.img != None %}
-                            <div class="fh5co_news_img"><img src='{{ new.img.url }}' alt=""/></div>
-                            {% endif %}
-                            <div></div>
-                        </div>
-                    </div>
-                    <div class="col-md-7 animate-box">
-                        <a href="{%url 'news' pk=new.id %}" class="fh5co_magna py-2"> {{ new.name }} </a> <a href="{%url 'news' pk=new.id %}" class="fh5co_mini_time py-3">
-                        {{ new.avtor }} </a>
-                        <div class="fh5co_consectetur"> {{ new.text|truncatewords:30 }}
-                        </div>
-                    </div>
-                </div>
-           {% endfor %}
-
-
-                <div class="row pb-4">
-                    <div class="col-md-5">
-                        <div class="fh5co_hover_news_img">
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    {% include 'front/block_tag_content.html' %}
-
-
-        {% endblock %}
+{% include 'front/block_news_in_the_midl.html' with news=category %}
+{% endblock %}
 
 
 {% block top_news %}

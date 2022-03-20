@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 
 
 
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     parent = models.ForeignKey('Category',blank=True , null=True, default=None, on_delete=models.PROTECT)
@@ -30,6 +29,7 @@ class Category(models.Model):
 
 
 class Avtor(models.Model):
+
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=30)
 
@@ -68,11 +68,23 @@ class News(models.Model):
         verbose_name_plural = 'Новости'
         ordering = ['time', 'name']
 
+    @property
+    def number_of_comments(self):
+        return Comment.objects.filter(post_id=self).count()
+
     def __str__(self):
         return f'{self.name}'
 
 
 class Comment(models.Model):
+    post = models.ForeignKey(News, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(News, on_delete=models.CASCADE)
     body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True, null=True)
+
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.author)

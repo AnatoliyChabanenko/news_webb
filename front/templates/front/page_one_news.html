@@ -24,6 +24,58 @@
                 </div>
             </div>
         </div>
+
+
+<!-- COMMENTS  -->
+
+<h2>Оставтве свій коментарь</h2>
+<div id="comments_section">
+
+  {% if user.is_authenticated %}
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ comment_form }}
+      <button class="btn btn-info" type="submit">Добавити коментар <i class="fas fa-comments"></i></button>
+    </div>
+  </form>
+  {% else %}
+  <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Щоб залишити коментар потрібно зайти </a><br>
+  {% endif %}
+
+  {% if comments %}
+  <strong class="text-secondary">{{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}</strong>
+  <hr>
+  <ul>
+    {% for comment in comments %}
+    <li>
+     <div>
+        <span>
+          <strong class="text-info">{{ comment.author }} </strong>
+          <small class="text-muted">{{ comment.created_on }}</small>
+        </span>
+        <form method="post" action="/delete/">
+            {% csrf_token %}
+            <p>{{ delete_comments }}</p>
+                {{ form }}
+    <input type="submit" value="Confirm">
+</form>
+         <p>
+
+          {{ comment.body|safe }}
+        </p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <strong class="text-secondary">Ще немае коментарів </strong>
+  {% endif %}
+
+</div>
+
+
+
 <div class="container-fluid pb-4 pt-5">
     <div class="container animate-box">
         <div>
@@ -49,5 +101,6 @@
         </div>
     </div>
 </div>
+
 </body>
 {% endblock %}

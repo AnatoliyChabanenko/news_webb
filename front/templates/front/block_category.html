@@ -18,13 +18,17 @@
                             {% for d in c.has_child  %}
                                 <a class="dropdown-item" href="{% url 'category' slug=d.name %}">{{ d.name }}</a>
                             {% endfor %}
+                            {% endfor %}
 
                             </div>
-                        </li>
-                    {% endfor %}
 
+                        </li>
                 </ul>
-                    <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+            {% if request.user.is_authenticated %}
+				<li class="last"> {{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
+				{% else %}
+                        <h5><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></h5>
+            {% endif %}
             </div>
         </nav>
     </div>

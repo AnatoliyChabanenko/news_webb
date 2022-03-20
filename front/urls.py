@@ -28,6 +28,6 @@ urlpatterns = [
     path('tag/<str:slug>', views.Tegs_news.as_view(), name='tag'),
     path('news/<int:pk>', views.One_News.as_view(), name='news'),
     path('login/', views.LoginUser.as_view(), name='login'),
+    path('logout/', views.logout_user, name='logout'),
     path('register/', views.RegisterUser.as_view(), name='register'),
-
 ]
