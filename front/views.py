@@ -1,14 +1,14 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
 from .forms import RegisterUserForm, LoginUserForm, AddCommentsForm
-from .models import Category, News,  Tags, Comment
+from .models import Category, News, Tags, Comment
 
-from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
 from .utils import DataMixin
 
@@ -28,24 +28,24 @@ class One_News(DetailView):
         comments_connected = Comment.objects.filter(post_id=self.get_object()).order_by('-created_on')
 
         data['comments'] = comments_connected
+        data['user'] = self.request.user.is_authenticated
         if self.request.user.is_authenticated:
             data['comment_form'] = AddCommentsForm(instance=self.request.user)
         return data
 
     def post(self, request, *args, **kwargs):
-        new_comment = Comment(body=request.POST.get('body'),
-                                  author=self.request.user,
-                                  post=self.get_object())
-        new_comment.save()
-        return self.get(self, request, *args, **kwargs)
+            new_comment = Comment(body=request.POST.get('body'),
+                              author=self.request.user,
+                              post=self.get_object())
+            new_comment.save()
+            return self.get(self, request, *args, **kwargs)
 
 
 
-class News_list(DataMixin, ListView):
+class News_list (DataMixin, ListView):
     model = News
     template_name = 'front/category_news.html'
     context_object_name = 'news_list'
-
 
     def get_queryset(self):
         return News.objects.filter(categori__name=self.kwargs['slug'])
@@ -73,30 +73,34 @@ class Category_list(DataMixin, ListView):
         return Category.objects.filter(parent=self).order_by('id')
 
 
-class Tegs_news(DataMixin , ListView):
+class Tegs_news(DataMixin, ListView):
     model = Tags
     template_name = 'front/page_mytags.html'
     context_object_name = 'tegs_news'
 
     def get_queryset(self):
         return News.objects.filter(tags__tags=self.kwargs['slug'])
-#
-# class PostCommentDeleteView(LoginRequiredMixin, DeleteView):
-#     model = Comment
-#     template_name = 'front/comments_delete.html'  # <app>/<model>_<viewtype>.html
-#
-#     def test_func(self):
-#         comment = self.get_object()
-#         if self.request.user == comment.user:
-#             return True
-#         return False
-#
-#     def form_invalid(self, form):
-#         return HttpResponseRedirect(self.get_success_url())
-#
-#     def get_success_url(self):
-#         return reverse('front/page_one_news.html', kwargs=dict(pk=self.kwargs['id']))
 
+
+
+class PostCommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'front/page_one_news.html'  # <app>/<model>_<viewtype>.html
+    success_message = "Deleted Successfully"
+
+    def get_success_url(self):
+
+        companyid = self.object.post_id
+        return reverse_lazy('news', kwargs={'pk': companyid})
+
+
+    def post(self, request, *args, **kwargs):
+
+        self.object = self.get_object()
+        if self.object.author == request.user:
+            success_url = self.get_success_url()
+            self.object.delete()
+            return HttpResponseRedirect(success_url)
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
@@ -125,6 +129,7 @@ class LoginUser(DataMixin, LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
+
 
 def logout_user(request):
     logout(request)

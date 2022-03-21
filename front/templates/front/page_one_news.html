@@ -32,7 +32,7 @@
 <div id="comments_section">
 
   {% if user.is_authenticated %}
-  <form method="POST">
+  <form method="POST" >
     {% csrf_token %}
     <div class="form-group">
       {{ comment_form }}
@@ -54,12 +54,15 @@
           <strong class="text-info">{{ comment.author }} </strong>
           <small class="text-muted">{{ comment.created_on }}</small>
         </span>
-        <form method="post" action="/delete/">
-            {% csrf_token %}
-            <p>{{ delete_comments }}</p>
-                {{ form }}
-    <input type="submit" value="Confirm">
-</form>
+         {% if comment.author == user %}
+         <form action = "{% url 'comments-delete' pk=comment.id %}" method = "POST">
+        {% csrf_token %}
+        <input type="hidden" name="comment_id" value="{{ comment.id }}"/>
+            <input type="hidden" name="blogs_id" value="{{ one_news.id }}"/>
+            <button>Delete</button>
+         </form>
+         {% endif %}
+
          <p>
 
           {{ comment.body|safe }}
