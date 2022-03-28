@@ -17,16 +17,9 @@ class Category(models.Model):
     def has_child(self):
         return Category.objects.filter(parent=self)
 
-    @property
-    def childs(self):
-        return Category.objects.filter(parent=self).order_by('id')
 
     def __str__(self):
         return self.name
-
-    # def get_absolute_url(self):
-    #     return reverse('category', kwargs={'cat.slug':self.slag })
-
 
 class Avtor(models.Model):
 
@@ -81,8 +74,6 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True, null=True)
-
-
 
 
     class Meta:

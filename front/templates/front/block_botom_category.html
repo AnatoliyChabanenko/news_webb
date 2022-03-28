@@ -4,7 +4,6 @@
                 <ul class="footer_menu">
                     {% for cat in all_category %}
                     <li><a href="{%url 'category' slug=cat.name%}" class=""><i class="fa fa-angle-right"></i>&nbsp;&nbsp; {{ cat.name }}</a></li>
-
                     {% endfor %}
                 </ul>
             </div>

@@ -21,10 +21,8 @@ class LoginUserForm(AuthenticationForm):
 
 
 class AddCommentsForm(forms.ModelForm):
+        body = forms.CharField(label='', widget=forms.Textarea({"rows":5,"cols":50}))
 
         class Meta:
             model = Comment
             fields = ['body']
-            widgets = {
-                'body': forms.Textarea(attrs={'cols': 60, 'rows': 10})
-            }

@@ -1,13 +1,14 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect, HttpResponseForbidden
-from django.urls import reverse_lazy, reverse
-from django.shortcuts import redirect, get_object_or_404
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
 from .forms import RegisterUserForm, LoginUserForm, AddCommentsForm
-from .models import Category, News, Tags, Comment
+from .models import  News, Tags, Comment
 
 
 from .utils import DataMixin
@@ -25,10 +26,9 @@ class One_News(DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        comments_connected = Comment.objects.filter(post_id=self.get_object()).order_by('-created_on')
+        comments_connected = Comment.objects.filter(post_id=self.get_object()).order_by('-created_on').select_related('post')
 
         data['comments'] = comments_connected
-        data['user'] = self.request.user.is_authenticated
         if self.request.user.is_authenticated:
             data['comment_form'] = AddCommentsForm(instance=self.request.user)
         return data
@@ -48,29 +48,16 @@ class News_list (DataMixin, ListView):
     context_object_name = 'news_list'
 
     def get_queryset(self):
-        return News.objects.filter(categori__name=self.kwargs['slug'])
+        return News.objects.filter(categori__name=self.kwargs['slug']).select_related('categori')
 
 
-class Category_list(DataMixin, ListView):
-    model = Category
+class FirsPage(DataMixin, ListView):
+    model = News
     template_name = 'front/fist_page.html'
     context_object_name = 'category'
 
     def get_queryset(self):
-        return News.objects.all()
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['news'] = News.objects.all()
-        return context
-
-    @property
-    def has_child(self):
-        return Category.objects.filter(parent=self).exists()
-
-    @property
-    def childs(self):
-        return Category.objects.filter(parent=self).order_by('id')
+        return News.objects.all().prefetch_related('tags')
 
 
 class Tegs_news(DataMixin, ListView):
@@ -78,15 +65,16 @@ class Tegs_news(DataMixin, ListView):
     template_name = 'front/page_mytags.html'
     context_object_name = 'tegs_news'
 
-    def get_queryset(self):
-        return News.objects.filter(tags__tags=self.kwargs['slug'])
 
+    def get_queryset(self):
+        tag = Tags.objects.get(pk=self.kwargs['pk'])
+        return tag.teg_news
 
 
 class PostCommentDeleteView(LoginRequiredMixin, DeleteView):
     model = Comment
     template_name = 'front/page_one_news.html'  # <app>/<model>_<viewtype>.html
-    success_message = "Deleted Successfully"
+    success_message = "deleted..."
 
     def get_success_url(self):
 

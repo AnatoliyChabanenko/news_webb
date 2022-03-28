@@ -22,11 +22,8 @@ def top_category(req):
         'all_category' : Category.objects.all()
     }
 
-def coment (req):
-    return {
-        'coment': Comment.objects.all()
-    }
+
 def tag_my (req):
     return  {
-        'tag_my' : Tags.objects.all()
+        'tag_my': Tags.objects.all()
     }

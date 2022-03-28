@@ -1,7 +1,3 @@
-{% load static %}
-
-
-
 
 <div class="container-fluid pb-4 pt-4 paddding">
     <div class="container paddding">
@@ -10,11 +6,15 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Новини</div>
                 </div>
+
            {% for new in news %}
+
             <div class="row pb-4">
                     <div class="col-md-5">
                         <div class="fh5co_hover_news_img">
+                        {{ new.teg_news }}
                             {% if new.img != None %}
+
                             <div class="fh5co_news_img"><img src='{{ new.img.url }}' alt=""/></div>
                             {% endif %}
                             <div></div>
@@ -25,9 +25,13 @@
                         {{ new.avtor }} </a>
                         <div class="fh5co_consectetur"> {{ new.text|truncatewords:30 }}
                         </div>
+
+                         <strong class="text-secondary">{{ new.number_of_comments }} Коментр{{ new.number_of_comments|pluralize:"і"}}</strong>
+
                     </div>
                 </div>
            {% endfor %}
+
                            <div class="row pb-4">
                     <div class="col-md-5">
                         <div class="fh5co_hover_news_img">

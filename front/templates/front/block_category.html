@@ -9,15 +9,23 @@
             <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="img" class="mobile_logo_width"/></a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    {% for c in categoriya %}
+                    <li class="nav-item active">
 
+                        <a class="nav-link " href="{% url 'home'  %}"> Головна сторінка <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% for c in categoriya %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{%url 'category' slug=c.name%}" id="dropdownMenuButton2" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">{{ c.name }} <span class="sr-only">(current)</span></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                            {% for d in c.has_child  %}
-                                <a class="dropdown-item" href="{% url 'category' slug=d.name %}">{{ d.name }}</a>
-                            {% endfor %}
+
+                            {% if c.has_child %}
+
+                                {% for d in c.has_child  %}
+                                    <a class="dropdown-item" href="{% url 'category' slug=d.name %}">{{ d.name }}</a>
+                                {% endfor %}
+                                {% endif %}
+                                    <a class="dropdown-item" href="{% url 'category' slug=c.name %}">Всі новини</a>
                             {% endfor %}
 
                             </div>
@@ -33,3 +41,4 @@
         </nav>
     </div>
 </div>
+

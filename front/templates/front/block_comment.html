@@ -1,9 +1,9 @@
 {% load static %}
-{% if user.is_authenticated %}
 
-    <h6><a class="btn btn-default" href="{% url 'add_comment_to_post' pk=blogpost.pk %}">Add a new comment</a></h6>
+{% if user.is_authenticated %}
+    <h6><a class="btn btn-default" href="{% url 'add_comment_to_post' pk=blogpost.pk %}">Добавить новий коментар</a></h6>
 {% else %}
-    <a href="{% url 'login'%}?next={{request.path}}">Login to add a new comment</a>
+    <a href="{% url 'login'%}?next={{request.path}}">Залогінитись що б додати коментар</a>
 {% endif %}
 
 
