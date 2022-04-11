@@ -24,9 +24,9 @@ from django.urls import path
 
 admin.site.site_header = 'Моя адмінка'
 admin.site.index_title = 'супер адмінка'
-# cache_page(60)
+
 urlpatterns = [
-    path('', views.FirsPage.as_view(), name='home'),
+    path('', cache_page(60)(views.FirsPage.as_view()), name='home'),
     path('<str:slug>', views.News_list.as_view(), name='category'),
     path('tag/<int:pk>', views.Tegs_news.as_view(), name='tag'),
     path('news/<int:pk>', views.One_News.as_view(), name='news'),

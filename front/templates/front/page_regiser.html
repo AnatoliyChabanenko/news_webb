@@ -1,18 +1,32 @@
 {% extends 'front/index.html' %}
 
 {% block top_news %}
-<h1>{{title}}</h1>
+
+    <div class="container-fluid pb-4 pt-4 paddding">
+    <div class="container paddding">
+        <div class="row mx-0">
+            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+                <div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">{{title}}</div>
+                </div>
+
 
 <form method="post">
     {% csrf_token %}
 
 {% for f in form %}
-<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+<pre><label class="form-text" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</pre>
 <div class="form-error">{{ f.errors }}</div>
 {% endfor %}
 
+
     <button type="submit">Регистрация</button>
 </form>
+        </div>
+    </div>
+    </div>
+    </div>
+
 
 {% endblock %}
 
